@@ -7,13 +7,29 @@ from shop.products.models import Addproduct,Brand,Category
 from shop import app,db,bcrypt
 
 
-@app.route('/admin')
+@app.route('/admin') 
 def admin():
     if 'email' not in session:
         flash('Please first login', 'danger')
         return redirect(url_for('login'))
     products=Addproduct.query.all()
     return render_template('admin/index.html', title='Admin Page' ,products=products)
+
+@app.route('/brand')
+def brand():
+    if 'email' not in session:
+        flash('Please first login', 'danger')
+        return redirect(url_for('login'))
+    brand=Brand.query.order_by(Brand.id.desc()).all()
+    return render_template('admin/brand.html',title='Brand page',brands=brand)
+
+@app.route('/category')
+def category():
+    if 'email' not in session:
+        flash('Please first login', 'danger')
+        return redirect(url_for('login'))
+    categories=Category.query.order_by(Category.id.desc()).all()
+    return render_template('admin/brand.html',title='categories page',categories=categories)
 
 @app.route('/')
 def home():
