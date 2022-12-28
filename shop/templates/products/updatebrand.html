@@ -8,16 +8,20 @@
 {% include '_messages.html' %}
 
                 {% if updatebrand %}
-                <h1 class="text-center mt-5">Add a Brand</h1>
+                <h1 class="text-center mt-5">Update a Brand</h1>
                 <form action="" method="POST">
                     <input type="text" name="brand" class="form-control" value="{{updatebrand.name}}">
-                    <input type="submit" value="Add brand" class="btn btn-info mt-2">
+                    <input type="submit" value="update brand" class="btn btn-info mt-2">
+                    <a href="{{url_for('brand')}}"><input type="button"  value="Cancel" class="btn btn-warning mt-2"></a>
+
                 </form>    
                 {% else %}
-                <h1 class="text-center mt-5">Add a Category</h1>
+                <h1 class="text-center mt-5">Update a Category</h1>
                 <form action="" method="POST">
-                    <input type="text" name="category" class="form-control">
+                    <input type="text" name="category" class="form-control" value="{{updatecat.name}}">
                     <input type="submit" value="Add Category" class="btn btn-info mt-2">
+                    <a href="{{url_for('category')}}"><input type="button"  value="Cancel" class="btn btn-warning mt-2"></a>
+
                 </form>
                 {% endif %}
             </div>

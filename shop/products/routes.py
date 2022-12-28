@@ -40,9 +40,9 @@ def updatecat(id):
         flash(f'Please login first','danger')
         return redirect(url_for('login'))
     updatecat=Category.query.get_or_404(id)
-    category=request.form.get('category')
         # return redirect(url_for('login'))
     if request.method=='POST':
+        category=request.form.get('category')
         updatecat.name=category
         flash(f'The Brand {updatecat} was added to your  database','success')
         # db.session.add(brand)
@@ -93,6 +93,46 @@ def addproduct():
         return redirect(url_for('admin'))
 
     return render_template('products/addproducts.html',title='Add products page',form=form,brands=brands,categories=categories)
+
+
+@app.route('/updateproduct/<int:id>',methods=['POST','GET'])
+def updateproduct(id):
+    if 'email' not in session:
+        flash(f'Please login first','danger')
+        return redirect(url_for('login'))
+    brands=Brand.query.all()
+    categories=Category.query.all()
+    updateProduct=Addproduct.query.get_or_404(id)
+    brand=request.form.get('brand')
+    category=request.form.get('category')
+    form=Addproducts(request.form)
+    if request.method == 'POST':
+        updateProduct.name=form.name.data
+        updateProduct.price=form.price.data
+        updateProduct.discount=form.discount.data
+        updateProduct.brand_id=brand
+        updateProduct.category_id=category
+        updateProduct.colors=form.colors.data
+        updateProduct.desc=form.discription.data
+        flash(f'the product has been updated to your database','success')
+        db.session.commit()
+        return redirect(url_for('admin'))
+
+
+    form.name.data=updateProduct.name
+    form.price.data=updateProduct.price
+    form.discount.data=updateProduct.discount
+    form.stock.data=updateProduct.stock
+    form.colors.data=updateProduct.colors
+    form.discription.data=updateProduct.desc
+    
+    # photos.save(request.files.get('image_1'),name=secrets.token_hex(10)+".")
+    # photos.save(request.files.get('image_2'),name=secrets.token_hex(10)+".")
+    # photos.save(request.files.get('image_3'),name=secrets.token_hex(10)+".")
+    return render_template('products/updateproduct.html',form=form,updateProduct=updateProduct,brands=brands,categories=categories)
+    
+
+
 
 @app.route('/createdb')
 def createdb():
